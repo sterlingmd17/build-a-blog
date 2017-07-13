@@ -8,21 +8,21 @@
         <input type="text" name='title' value="{{title}}">
         {% with messages = get_flashed_messages(category_filter=["error0"]) %}
             {% if messages %}
-                {% for category in messages %}
-                <span class="{{category}}">{{message}}</span>
+                {% for message in messages %}
+                <span class="error">{{message}}</span>
                 {% endfor %}
             {% endif %}
-        {% endwith %}  <!-- TODO- fix flash messages for statements-->
+        {% endwith %}
     </p>
     <span>Your blog entry</span>
-    <p>
+   <p>
         <textarea name='body'>{{body}}</textarea>
         {% with messages = get_flashed_messages(category_filter=["error1"]) %}
-        {% if messages %}
-        {% for category,message in messages %}
-        <span class="{{category}}">{{message}}</span>
-        {% endfor %}
-        {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+        <span class="error">{{message}}</span>
+                {% endfor %}
+                {% endif %}
         {% endwith %}
     </p>
     <input type='submit' value="Add entry">

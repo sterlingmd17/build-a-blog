@@ -23,9 +23,9 @@ class Blog(db.Model):
 
 @app.route("/newpost", methods=['POST', 'GET'])
 def newpost():
+    title = request.form['title']
+    body = request.form['body']
     if request.method=='POST':
-        title = request.form['title']
-        body = request.form['body']
         if title and body:
             new_post = Blog(title, body)
             db.session.add(new_post)
@@ -38,7 +38,7 @@ def newpost():
                 flash("please enter a body", "error1")
             
 
-    return render_template('newpost.html')
+    return render_template('newpost.html', title=title, body=body)
 
 
 @app.route('/ind-blog', methods=['POST', 'GET'])
