@@ -3,21 +3,28 @@
 {% block content %}
 <h1 class='heading'> Add a blog entry</h1>
 <form action="/newpost" method='POST'>
-    <span>Title for blog entry:</span>
+    <span>Title for blog entry:</span> 
     <p>
         <input type="text" name='title' value="{{title}}">
-        {% if error0 %}
-        <span class="error">{{error0}}</span>
-        {%endif%}
+        {% with messages = get_flashed_messages(category_filter=["error0"]) %}
+            {% if messages %}
+                {% for category in messages %}
+                <span class="{{category}}">{{message}}</span>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}  <!-- TODO- fix flash messages for statements-->
     </p>
     <span>Your blog entry</span>
     <p>
         <textarea name='body'>{{body}}</textarea>
-        {% if error1 %}
-        <span class="error">{{error1}}</span>
-        {%endif%}
+        {% with messages = get_flashed_messages(category_filter=["error1"]) %}
+        {% if messages %}
+        {% for category,message in messages %}
+        <span class="{{category}}">{{message}}</span>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
     </p>
-    
     <input type='submit' value="Add entry">
 </form>
 {% endblock %}

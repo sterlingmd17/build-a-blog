@@ -26,22 +26,26 @@ def newpost():
     if request.method=='POST':
         title = request.form['title']
         body = request.form['body']
-        if len(title) and len(body) > 0:
+        if title and body:
             new_post = Blog(title, body)
             db.session.add(new_post)
             db.session.commit()
-            return redirect('/')
+            return redirect('./ind-blog?id=' + str(new_post.id))
         else:
-            error0=''
-            error1=''
-            if len(title)==0:
-                error0="please enter a title"
-            if len(body)==0:
-                error1="please enter a body"
-            return render_template('newpost.html', title=title, body=body, error0=error0, error1=error1)
+            if not title:
+                flash("please enter a title", "error0")
+            if not body:
+                flash("please enter a body", "error1")
             
 
     return render_template('newpost.html')
+
+
+@app.route('/ind-blog', methods=['POST', 'GET'])
+def ind_blog():
+    post_id= int(request.args.get("id"))
+    posting = Blog.query.filter_by(id=post_id)
+    return render_template("ind-blog.html", posting=posting)
 
 
 @app.route('/', methods=['POST', 'GET'])
